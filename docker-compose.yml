@@ -1,0 +1,14 @@
+version: '2' # docker-compose version
+
+services:
+  express: #name of the second service
+    build: api # specify the directory of the Dockerfile
+    ports:
+      - "3000:3000" #ports forewarding
+    links:
+      - database
+
+  database: # name of the third service
+    image: mongo # specify image to build container from
+    ports:
+      - "27017:27017" # port forewarding
