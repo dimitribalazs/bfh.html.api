@@ -1,5 +1,6 @@
 // Get dependencies
 const express = require('express');
+
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
@@ -17,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set our api routes
 app.use('/api', api);
-app.use('/api/beer', beers);
-app.use('/api/user', users);
+app.use('/api/beers', beers);
+app.use('/api/users', users);
 
 /**
  * Get port from environment and store in Express.
