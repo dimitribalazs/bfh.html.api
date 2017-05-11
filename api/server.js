@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 
 // Get our API routes
 const api = require('./routes/api');
+const beers = require('./routes/beers');
+const users = require('./routes/users');
 
 const app = express();
 
@@ -14,7 +16,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set our api routes
-app.use('/', api);
+app.use('/api', api);
+app.use('/api/beer', beers);
+app.use('/api/user', users);
 
 /**
  * Get port from environment and store in Express.
