@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set our api routes
 app.use('/api', api);
-app.use('/api/beers', beers);
-app.use('/api/users', users);
+app.use("/", beers);
+app.use("/", users);
 
 /**
  * Get port from environment and store in Express.

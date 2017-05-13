@@ -1,57 +1,80 @@
 module.exports = (function () {
     'use strict';
     var router = require('express').Router();
+    const baseBeerUrl = "/api/beers/"
 
     const mongoose = require('mongoose');
 
-    //const dbHost = "mongodb://database/bfh.html.api";
-    const dbHost = "mongodb://127.0.0.1:27017"
+    //todo take one of those :-)
+    //const dbHost = "mongodb://127.0.0.1:27017"
+    //const dbHost = "mongodb://mongodb:27017";
+    const dbHost = "mongodb://192.168.99.100:27017"
 
     mongoose.connect(dbHost);
     // create mongoose schema
     const beerSchema = new mongoose.Schema({
-         name: String,
-         taste: String
+        name: String,
+        taste: String
     });
 
     const Beer = mongoose.model("Beer", beerSchema);
 
-    router.get('/', function (req, res) {
+    /**
+     * Get a list of beers
+     */
+    router.get(baseBeerUrl, (req, res) => {
         Beer.find({}, (err, beers) => {
-            if(err) res.status(500).send(error);
-
+            if (err) res.status(500).send(error);
             res.status(200).json(beers);
         });
     });
 
-    router.get('/api/beers/:id', function(req, res) {
-        console.log("id" + req.param.id);
-        Beer.findById(req.param.id, (err, beer) => {
-             if (err) res.status(500).send(error)
-             
-             res.status(200).json(beer);
-    
+    /**
+     * Get a beer
+     */
+    router.get(baseBeerUrl + ':id', (req, res) => {
+        console.log("test " + (typeof req.params));
+        Beer.findById(req.params.id, (err, beer) => {
+            if (err) res.status(500).send(error)
+            res.status(200).json(beer);
         });
     });
 
-    router.post('/', function (req, res) {
+    /**
+     * Create a beer
+     */
+    router.post(baseBeerUrl, (req, res) => {
+        let requestBeer = req.body;
         
-        var b = new Beer({
-            name: "Anker",
-            taste: "Gruusig"
-        })
-
-        b.save(error => {
+        if(requestBeer.name == undefined || requestBeer.name == "") { 
+            res.status(400).json({message: "name not set"});
+            return;
+        }   
+        
+        let newBeer = new Beer({
+            name: requestBeer.name,
+            taste: requestBeer.taste
+        });
+        newBeer.save(error => {
             if (error) res.status(500).send(error);
 
             res.status(201).json({
-                message: 'User created successfully'
+                message: ''
             });
         })
-        
     });
 
-    router.delete('/', function (req, res) {
+    /**
+     * Update a beer
+     */
+    router.put(baseBeerUrl + ':id', (req, res) => {
+
+    });
+
+    /**
+     * Delete a beer
+     */
+    router.delete(baseBeerUrl + ':id', (req, res) => {
         res.json({ "foo": "beer deleted" });
     });
 

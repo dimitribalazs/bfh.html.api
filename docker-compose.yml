@@ -6,9 +6,9 @@ services:
     ports:
       - "3000:3000" #ports forewarding
     links:
-      - database
+      - mongodb
 
-  database: # name of the third service
+  mongodb: # name of the third service
     image: mongo # specify image to build container from
     ports:
       - "27017:27017" # port forewarding

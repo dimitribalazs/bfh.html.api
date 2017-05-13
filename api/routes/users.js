@@ -1,10 +1,17 @@
-module.exports = (function() {
-    'use strict';
-    var router = require('express').Router();
+'use strict';
 
-    router.get('/', function(req, res) {
-        res.json({'foo':'users'});
-    });
+var router = require('express').Router();
 
-    return router;
-})();
+router.get('/api/users', (req, res) => {
+    res.json({ 'foo': 'users' });
+});
+
+router.get("/api/users/:id", (req, res) => {
+    console.log("user " + req.params.id);
+    res.send(req.param);
+});
+
+module.exports = router;
+
+
+
